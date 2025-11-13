@@ -9,8 +9,8 @@ import (
 
 type Config struct {
 	ServerAddress string
-
-	AppMode string
+	DBURL         string
+	AppMode       string
 }
 
 func New() *Config {
