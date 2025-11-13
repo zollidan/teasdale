@@ -8,11 +8,12 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/zollidan/teasdale/config"
+	"github.com/zollidan/teasdale/database"
 )
 
 func main() {
-
 	cfg := config.New()
+	_ = database.Init(cfg)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)

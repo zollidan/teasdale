@@ -26,7 +26,7 @@ func New() *Config {
 
 	return &Config{
 		ServerAddress: getEnv("SERVER_ADDRESS", "localhost:3333"),
-
+		DBURL:         getEnv("DATABASE_URL", ""),
 		AppMode: getEnv("APP_MODE", "development"),
 	}
 }

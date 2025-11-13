@@ -28,7 +28,7 @@ func autoMigrate(db *gorm.DB) error {
 		&models.Genre{},
 		&models.Album{},
 		&models.Track{},
-		&models.TrackGenre{},
+		&models.AlbumGenre{},
 		&models.Like{},
 		&models.Comment{},
 		&models.Review{},

@@ -38,6 +38,11 @@ CREATE TABLE "albums" (
   "updated_at" timestamp DEFAULT (now())
 );
 
+CREATE TABLE "album_genres" (
+  "album_id" uuid NOT NULL,
+  "genre_id" uuid NOT NULL
+);
+
 CREATE TABLE "tracks" (
   "id" uuid PRIMARY KEY,
   "title" varchar(255) NOT NULL,
@@ -48,11 +53,6 @@ CREATE TABLE "tracks" (
   "plays_count" integer DEFAULT 0,
   "created_at" timestamp DEFAULT (now()),
   "updated_at" timestamp DEFAULT (now())
-);
-
-CREATE TABLE "track_genres" (
-  "track_id" uuid NOT NULL,
-  "genre_id" uuid NOT NULL
 );
 
 CREATE TABLE "likes" (
@@ -112,11 +112,15 @@ CREATE INDEX ON "albums" ("release_date");
 
 CREATE INDEX ON "albums" ("album_type");
 
+CREATE INDEX ON "album_genres" ("album_id", "genre_id");
+
+CREATE INDEX ON "album_genres" ("album_id");
+
+CREATE INDEX ON "album_genres" ("genre_id");
+
 CREATE INDEX ON "tracks" ("album_id");
 
 CREATE INDEX ON "tracks" ("title");
-
-CREATE INDEX ON "track_genres" ("track_id", "genre_id");
 
 CREATE UNIQUE INDEX ON "likes" ("user_id", "track_id");
 
@@ -154,11 +158,11 @@ COMMENT ON COLUMN "news"."author_id" IS 'editor user_id';
 
 ALTER TABLE "albums" ADD FOREIGN KEY ("artist_id") REFERENCES "artists" ("id") ON DELETE CASCADE;
 
+ALTER TABLE "album_genres" ADD FOREIGN KEY ("album_id") REFERENCES "albums" ("id") ON DELETE CASCADE;
+
+ALTER TABLE "album_genres" ADD FOREIGN KEY ("genre_id") REFERENCES "genres" ("id") ON DELETE CASCADE;
+
 ALTER TABLE "tracks" ADD FOREIGN KEY ("album_id") REFERENCES "albums" ("id") ON DELETE CASCADE;
-
-ALTER TABLE "track_genres" ADD FOREIGN KEY ("track_id") REFERENCES "tracks" ("id") ON DELETE CASCADE;
-
-ALTER TABLE "track_genres" ADD FOREIGN KEY ("genre_id") REFERENCES "genres" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "likes" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 

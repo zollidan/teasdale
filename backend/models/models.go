@@ -40,7 +40,7 @@ type Genre struct {
 	Description string    `gorm:"type:text"`
 	CreatedAt   time.Time
 
-	Tracks []Track `gorm:"many2many:track_genres;constraint:OnDelete:CASCADE"`
+	Albums []Album `gorm:"many2many:album_genres;constraint:OnDelete:CASCADE"`
 }
 
 type Album struct {
@@ -56,6 +56,7 @@ type Album struct {
 
 	Artist  Artist   `gorm:"foreignKey:ArtistID;constraint:OnDelete:CASCADE"`
 	Tracks  []Track  `gorm:"foreignKey:AlbumID;constraint:OnDelete:CASCADE"`
+	Genres  []Genre  `gorm:"many2many:album_genres;constraint:OnDelete:CASCADE"`
 	Reviews []Review `gorm:"foreignKey:AlbumID;constraint:OnDelete:CASCADE"`
 }
 
@@ -71,14 +72,13 @@ type Track struct {
 	UpdatedAt   time.Time
 
 	Album            Album              `gorm:"foreignKey:AlbumID;constraint:OnDelete:CASCADE"`
-	Genres           []Genre            `gorm:"many2many:track_genres;constraint:OnDelete:CASCADE"`
 	Likes            []Like             `gorm:"foreignKey:TrackID;constraint:OnDelete:CASCADE"`
 	Comments         []Comment          `gorm:"foreignKey:TrackID;constraint:OnDelete:CASCADE"`
 	TrendingScores   []TrendingScore    `gorm:"foreignKey:TrackID;constraint:OnDelete:CASCADE"`
 }
 
-type TrackGenre struct {
-	TrackID uuid.UUID `gorm:"type:uuid;primaryKey"`
+type AlbumGenre struct {
+	AlbumID uuid.UUID `gorm:"type:uuid;primaryKey"`
 	GenreID uuid.UUID `gorm:"type:uuid;primaryKey"`
 }
 
